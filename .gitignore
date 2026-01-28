@@ -32,6 +32,13 @@ build/
 ### VS Code ###
 .vscode/
 
-# Ignore files
-.env
-/src/main/resources/application.yml.env
+# Spring Boot env / secrets
+application*.yml
+application*.yaml
+!application.yml
+!application.yaml
+*.env
+*.secret
+*.key
+*.pem
+
