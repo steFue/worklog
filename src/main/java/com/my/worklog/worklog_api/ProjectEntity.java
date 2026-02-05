@@ -3,6 +3,7 @@ package com.my.worklog.worklog_api;
 
 import jakarta.persistence.*;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +20,9 @@ public class ProjectEntity {
     @Column(nullable = false)
     private String name;
 
+    @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
+    private OffsetDateTime createdAt;
+
     @OneToMany (
             mappedBy = "project",
             fetch = FetchType.LAZY,
@@ -32,6 +36,9 @@ public class ProjectEntity {
     }
 
     public ProjectEntity(UUID id, String name) {
+        if (id == null) {
+            throw new IllegalArgumentException("Project id cannot be null");
+        }
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Project name must not be blank");
         }
@@ -52,6 +59,13 @@ public class ProjectEntity {
         TaskEntity task = new TaskEntity(taskId, this, title);
         tasks.add(task);
         return task;
+    }
+
+    public void removeTask(UUID taskId) {
+        if (taskId == null) {
+            throw new IllegalArgumentException("Task dose not exist");
+        }
+        tasks.removeIf(task -> task.getId().equals(taskId));
     }
 
     public List<TaskEntity> getTasks() {

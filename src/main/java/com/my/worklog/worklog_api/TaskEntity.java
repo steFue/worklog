@@ -33,6 +33,9 @@ public class TaskEntity {
     }
 
     public TaskEntity(UUID id, ProjectEntity project, String title) {
+        if (id == null) {
+            throw new IllegalArgumentException("Task id must not be null");
+        }
         if (project == null) {
             throw new IllegalArgumentException("Task must belong to a project");
         }
