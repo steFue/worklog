@@ -37,10 +37,10 @@ public class ProjectEntity {
 
     public ProjectEntity(UUID id, String name) {
         if (id == null) {
-            throw new IllegalArgumentException("Project id cannot be null");
+            throw new DomainValidationException("Project id cannot be null");
         }
         if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Project name must not be blank");
+            throw new DomainValidationException("Project name must not be blank");
         }
         this.id = id;
         this.name = name;
@@ -63,7 +63,7 @@ public class ProjectEntity {
 
     public void removeTask(UUID taskId) {
         if (taskId == null) {
-            throw new IllegalArgumentException("Task dose not exist");
+            throw new DomainValidationException("Task dose not exist");
         }
         tasks.removeIf(task -> task.getId().equals(taskId));
     }
@@ -74,7 +74,7 @@ public class ProjectEntity {
 
     public void rename(String newName) {
         if (newName == null || newName.isBlank()) {
-            throw new IllegalArgumentException("Project name must not be blank");
+            throw new DomainValidationException("Project name must not be blank");
         }
         this.name = newName;
     }

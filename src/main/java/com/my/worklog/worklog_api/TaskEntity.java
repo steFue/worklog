@@ -34,13 +34,13 @@ public class TaskEntity {
 
     public TaskEntity(UUID id, ProjectEntity project, String title) {
         if (id == null) {
-            throw new IllegalArgumentException("Task id must not be null");
+            throw new DomainValidationException("Task id must not be null");
         }
         if (project == null) {
-            throw new IllegalArgumentException("Task must belong to a project");
+            throw new DomainValidationException("Task must belong to a project");
         }
         if (title == null || title.isBlank()) {
-            throw new IllegalArgumentException("Task title must not be blank");
+            throw new DomainValidationException("Task title must not be blank");
         }
         this.id = id;
         this.project = project;
@@ -70,14 +70,14 @@ public class TaskEntity {
 
     public void rename(String newTitle) {
         if (newTitle == null || newTitle.isBlank()) {
-            throw new IllegalArgumentException("Task title must not be blank");
+            throw new DomainValidationException("Task title must not be blank");
         }
         this.title = newTitle;
     }
 
     public void changeStatus(TaskStatus newStatus) {
         if (newStatus == null) {
-            throw new IllegalArgumentException("Task status must not be null");
+            throw new DomainValidationException("Task status must not be null");
         }
         this.status = newStatus;
     }
