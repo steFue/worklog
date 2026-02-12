@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -36,13 +37,13 @@ public class ProjectEntity {
     }
 
     public ProjectEntity(UUID id, String name) {
-        if (id == null) {
-            throw new DomainValidationException("Project id cannot be null");
-        }
+
+        this.id = Objects.requireNonNull(id, "Id cannot be null");
+
         if (name == null || name.isBlank()) {
-            throw new DomainValidationException("Project name must not be blank");
+            throw new IllegalArgumentException("Project name must not be blank");
         }
-        this.id = id;
+
         this.name = name;
     }
 
@@ -63,7 +64,7 @@ public class ProjectEntity {
 
     public void removeTask(UUID taskId) {
         if (taskId == null) {
-            throw new DomainValidationException("Task dose not exist");
+            throw new IllegalArgumentException("Task dose not exist");
         }
         tasks.removeIf(task -> task.getId().equals(taskId));
     }
@@ -74,7 +75,7 @@ public class ProjectEntity {
 
     public void rename(String newName) {
         if (newName == null || newName.isBlank()) {
-            throw new DomainValidationException("Project name must not be blank");
+            throw new IllegalArgumentException("Project name must not be blank");
         }
         this.name = newName;
     }
