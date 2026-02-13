@@ -1,4 +1,4 @@
-package com.my.worklog.worklog_api;
+package com.my.worklog.worklog_api.exceptions;
 
 public class NotFoundException extends RuntimeException
 {

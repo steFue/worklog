@@ -1,5 +1,12 @@
-package com.my.worklog.worklog_api;
+package com.my.worklog.worklog_api.services;
 
+import com.my.worklog.worklog_api.domain.TaskStatus;
+import com.my.worklog.worklog_api.domain.ProjectEntity;
+import com.my.worklog.worklog_api.domain.TaskEntity;
+import com.my.worklog.worklog_api.exceptions.DomainValidationException;
+import com.my.worklog.worklog_api.exceptions.NotFoundException;
+import com.my.worklog.worklog_api.repository.ProjectRepository;
+import com.my.worklog.worklog_api.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +31,7 @@ public class ProjectService {
             ProjectEntity project = new ProjectEntity(id,name);
             projectRepository.save(project);
             return id;
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | NullPointerException e) {
             throw new DomainValidationException(e.getMessage(), e);
         }
     }
@@ -41,7 +48,7 @@ public class ProjectService {
             project.addTask(taskId, title);
             projectRepository.save(project);
             return taskId;
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | NullPointerException e) {
             throw new DomainValidationException(e.getMessage(), e);
         }
     }
@@ -49,12 +56,12 @@ public class ProjectService {
     @Transactional
     public void changeTaskStatus(UUID projectId, UUID taskId, TaskStatus newStatus) {
         TaskEntity task = taskRepository.findByIdAndProjectId(taskId, projectId)
-                .orElseThrow(() -> new NotFoundException("Task not found: " + taskId));
+                .orElseThrow(() -> new NotFoundException("Task not found: " + taskId + " for project: " + projectId));
 
         try {
             task.changeStatus(newStatus);
-            taskRepository.save(task);
-        } catch (IllegalArgumentException e) {
+            //taskRepository.save(task);
+        } catch (IllegalArgumentException | NullPointerException e) {
             throw new DomainValidationException(e.getMessage(), e);
         }
     }
