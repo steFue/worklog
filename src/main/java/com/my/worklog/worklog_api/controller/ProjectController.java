@@ -1,10 +1,7 @@
 package com.my.worklog.worklog_api.controller;
 
-import com.my.worklog.worklog_api.dto.CreateProjectRequest;
-import com.my.worklog.worklog_api.dto.CreateTaskRequest;
-import com.my.worklog.worklog_api.dto.ProjectResponse;
-import com.my.worklog.worklog_api.dto.TaskResponse;
 import com.my.worklog.worklog_api.domain.TaskStatus;
+import com.my.worklog.worklog_api.dto.*;
 import com.my.worklog.worklog_api.services.ProjectService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +37,16 @@ public class ProjectController {
         TaskResponse body = new TaskResponse(taskId, projectId, req.title(), TaskStatus.TODO);
 
         return ResponseEntity.created(URI.create("/api/projects//{projectId}/tasks")).body(body);
+    }
+
+    @PatchMapping("/{projectId}/tasks/{taskId}")
+    public ResponseEntity<TaskStatusResponse> changeStatus(@PathVariable UUID projectId, @PathVariable UUID taskId, @Valid @RequestBody ChangeTaskStatusRequest req) {
+
+        projectService.changeTaskStatus(projectId, taskId, req.status());
+        TaskStatusResponse body = new TaskStatusResponse(taskId, req.status());
+
+        return ResponseEntity.ok(body);
+
     }
 
 }
