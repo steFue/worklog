@@ -6,6 +6,7 @@ import com.my.worklog.worklog_api.services.ProjectService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.UUID;
@@ -26,7 +27,14 @@ public class ProjectController {
 
         UUID id = projectService.createProject(req.name());
         ProjectResponse body = new ProjectResponse(id, req.name());
-        return ResponseEntity.created(URI.create("/api/projects/" + id)).body(body);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{projectId}")
+                .buildAndExpand(id)
+                .toUri();
+        return ResponseEntity.created(location).body(body);
+        //return ResponseEntity.created(URI.create("/api/projects/" + id)).body(body);
 
     }
 
@@ -36,7 +44,15 @@ public class ProjectController {
         UUID taskId = projectService.addTaskToProject(projectId, req.title());
         TaskResponse body = new TaskResponse(taskId, projectId, req.title(), TaskStatus.TODO);
 
-        return ResponseEntity.created(URI.create("/api/projects//{projectId}/tasks")).body(body);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{taskId}")
+                .buildAndExpand(taskId)
+                .toUri();
+
+        return ResponseEntity.created(location).body(body);
+
+        //return ResponseEntity.created(URI.create("/api/projects/{projectId}/tasks")).body(body);
     }
 
     @PatchMapping("/{projectId}/tasks/{taskId}")
