@@ -1,4 +1,4 @@
-package com.my.worklog.worklog_api;
+package com.my.worklog.worklog_api.domain;
 
 
 import jakarta.persistence.*;

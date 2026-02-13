@@ -1,5 +1,11 @@
 package com.my.worklog.worklog_api;
 
+import com.my.worklog.worklog_api.domain.ProjectEntity;
+import com.my.worklog.worklog_api.domain.TaskEntity;
+import com.my.worklog.worklog_api.domain.TaskStatus;
+import com.my.worklog.worklog_api.repository.ProjectRepository;
+import com.my.worklog.worklog_api.repository.TaskRepository;
+import com.my.worklog.worklog_api.services.ProjectService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -27,6 +27,8 @@ Controller → Service → Repository → Database
 - **Service**: Business use cases and transactional boundaries
 - **Repository**: Data access via Spring Data JPA
 - **Domain (Entities)**: Business rules and invariants
+- **Exceptions**: Domain layer throws standard exceptions; service layer maps to application
+- exceptions for consistent API error handling.
 
 ## Database
 

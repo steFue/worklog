@@ -1,5 +1,12 @@
-package com.my.worklog.worklog_api;
+package com.my.worklog.worklog_api.services;
 
+import com.my.worklog.worklog_api.domain.TaskStatus;
+import com.my.worklog.worklog_api.domain.ProjectEntity;
+import com.my.worklog.worklog_api.domain.TaskEntity;
+import com.my.worklog.worklog_api.exceptions.DomainValidationException;
+import com.my.worklog.worklog_api.exceptions.NotFoundException;
+import com.my.worklog.worklog_api.repository.ProjectRepository;
+import com.my.worklog.worklog_api.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

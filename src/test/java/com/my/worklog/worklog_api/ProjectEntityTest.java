@@ -1,5 +1,6 @@
 package com.my.worklog.worklog_api;
 
+import com.my.worklog.worklog_api.domain.ProjectEntity;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;

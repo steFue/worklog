@@ -2,9 +2,11 @@ package com.my.worklog.worklog_api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
-class WorklogApiApplicationTests {
+@ActiveProfiles("test")
+class WorklogApiApplicationTests extends AbstractIntegrationTest {
 
 	@Test
 	void contextLoads() {
