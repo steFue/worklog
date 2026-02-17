@@ -33,12 +33,6 @@ build/
 .vscode/
 
 # Spring Boot env / secrets
-application*.yml
-application*.yaml
-!application.yml
-!application.yaml
-application.properties
-application-local.properties
 *.env
 *.secret
 *.key

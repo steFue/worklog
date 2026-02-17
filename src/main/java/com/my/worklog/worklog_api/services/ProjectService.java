@@ -1,12 +1,13 @@
 package com.my.worklog.worklog_api.services;
 
-import com.my.worklog.worklog_api.domain.TaskStatus;
 import com.my.worklog.worklog_api.domain.ProjectEntity;
 import com.my.worklog.worklog_api.domain.TaskEntity;
-import com.my.worklog.worklog_api.exceptions.DomainValidationException;
+import com.my.worklog.worklog_api.domain.TaskStatus;
 import com.my.worklog.worklog_api.exceptions.NotFoundException;
 import com.my.worklog.worklog_api.repository.ProjectRepository;
 import com.my.worklog.worklog_api.repository.TaskRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,8 @@ import java.util.UUID;
 
 @Service
 public class ProjectService {
+
+    private final static Logger log = LoggerFactory.getLogger(ProjectService.class);
 
 
     private final ProjectRepository projectRepository;
@@ -26,15 +29,17 @@ public class ProjectService {
 
     @Transactional
     public UUID createProject(String name) {
-        UUID id =  UUID.randomUUID();
-        try {
-            ProjectEntity project = new ProjectEntity(id,name);
-            projectRepository.save(project);
-            return id;
-        } catch (IllegalArgumentException | NullPointerException e) {
-            throw new DomainValidationException(e.getMessage(), e);
-        }
+
+        UUID projectId =  UUID.randomUUID();
+
+        ProjectEntity project = new ProjectEntity(projectId, name);
+        projectRepository.save(project);
+
+        log.info("Project created projectId={}", projectId);
+        return projectId;
+
     }
+
 
     @Transactional
     public UUID addTaskToProject(UUID projectId, String title) {
@@ -44,25 +49,24 @@ public class ProjectService {
 
         UUID taskId = UUID.randomUUID();
 
-        try {
-            project.addTask(taskId, title);
-            projectRepository.save(project);
-            return taskId;
-        } catch (IllegalArgumentException | NullPointerException e) {
-            throw new DomainValidationException(e.getMessage(), e);
-        }
+        project.addTask(taskId, title);
+        projectRepository.save(project);
+
+        log.info("Task created projectId={} taskId={}", projectId, taskId);
+        return taskId;
+
     }
 
     @Transactional
     public void changeTaskStatus(UUID projectId, UUID taskId, TaskStatus newStatus) {
+
         TaskEntity task = taskRepository.findByIdAndProjectId(taskId, projectId)
                 .orElseThrow(() -> new NotFoundException("Task not found: " + taskId + " for project: " + projectId));
 
-        try {
-            task.changeStatus(newStatus);
-            //taskRepository.save(task);
-        } catch (IllegalArgumentException | NullPointerException e) {
-            throw new DomainValidationException(e.getMessage(), e);
-        }
+        TaskStatus oldStatus = task.getStatus();
+
+        task.changeStatus(newStatus);
+        // No saved needed, managed entity + dirty checking withing transaction taskRepository.save(task);
+        log.info("Task status changed projectId={} taskId={} from={} to={}", projectId, taskId, oldStatus, newStatus);
     }
 }

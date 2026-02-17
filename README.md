@@ -14,6 +14,7 @@ using docker + AWS.
 - Flyway (database migrations)
 - Testcontainers (integration testing)
 - OpenAPI/Swagger (springdoc)
+- Actuator - Prometheus (Metrics)
 - Maven
 - Docker (planned for local compose + image build)
 - AWS (Planned)
@@ -43,12 +44,28 @@ While application is running:
 - Swagger UI: http://localhost:8080/swagger-ui/index.html
 - OpenAPI JSON: http://localhost:8080/v3/api-docs
 
-## Actuator
+## Observability (Actuator + Metrics)
 
-While application is running:
+This project uses Spring Boot Actuator as default for health checks and basic observability.
 
-- Health: http://localhost:8080/actuator/health
-- Info: http://localhost:8080/actuator/info
+- Health Endpoints: 
+- GET /actuator/health
+- GET /actuator/health/liveness
+- GET /actuator/health/readiness
+- GET /actuator/info
+
+## Metrics (local profile only)
+
+- GET /actuator/metrics
+- GET /actuator/prometheus
+
+## Run with local profile 
+Set environment variables:
+
+- SPRING_PROFILES_ACTIVE=local
+- DB_USER=
+- DB_PASSWORD=
+
 
 ## Testing
 
