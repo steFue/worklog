@@ -2,16 +2,8 @@ server:
   port: ${PORT:8080}
 
 spring:
-  profiles:
-    active: local
   application:
     name: worklog-api
-
-
-  datasource:
-    url: jdbc:postgresql://localhost:5432/worklog
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
 
   jpa:
     hibernate:
@@ -25,4 +17,15 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info, metrics, prometheus
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level [%thread] %logger{36} - %msg%n"
+  level:
+    root: INFO
