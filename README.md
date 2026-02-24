@@ -16,7 +16,7 @@ using docker + AWS.
 - OpenAPI/Swagger (springdoc)
 - Actuator - Prometheus (Metrics)
 - Maven
-- Docker (planned for local compose + image build)
+- Docker (Dockerfile + docker-compose)
 - AWS (Planned)
 
 ## Architecture
@@ -59,12 +59,16 @@ This project uses Spring Boot Actuator as default for health checks and basic ob
 - GET /actuator/metrics
 - GET /actuator/prometheus
 
-## Run with local profile 
-Set environment variables:
+## Run locally with Docker 
 
-- SPRING_PROFILES_ACTIVE=local
-- DB_USER=
-- DB_PASSWORD=
+1) Configure environment variables
+Create a .env file in the project root(see .env.example file)
+
+2) Start (API + PostgreSQL)
+- bash: 
+docker compose up --build
+docker compose down (STOP)
+docker compose down -v (Removes Docker volume)
 
 
 ## Testing
