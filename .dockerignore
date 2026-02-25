@@ -1,0 +1,23 @@
+# --- VCS / IDE ---
+.git
+.idea
+.vscode
+*.iml
+
+# --- OS ---
+.DS_store
+
+# --- Build output ---
+target
+build
+out
+
+# --- Logs / temp ---
+*.log
+tmp
+
+
+# --- Secrets ---
+.env
+*.pem
+*.key
