@@ -17,7 +17,7 @@ using docker + AWS.
 - Actuator - Prometheus (Metrics)
 - Maven
 - Docker (Dockerfile + docker-compose)
-- AWS (Planned)
+- AWS (Lab deployment documented)
 
 ## Architecture
 
@@ -69,6 +69,12 @@ Create a .env file in the project root(see .env.example file)
 docker compose up --build
 docker compose down (STOP)
 docker compose down -v (Removes Docker volume)
+
+
+## AWS lab deployment (branch: aws-deploy)
+This branch contains a repeatable lab deployment to AWS (EC2 + RDS) and a cleanup checklist.
+
+See: /aws/README.md
 
 
 ## Testing
