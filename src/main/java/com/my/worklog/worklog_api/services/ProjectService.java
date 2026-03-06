@@ -50,7 +50,8 @@ public class ProjectService {
         UUID taskId = UUID.randomUUID();
 
         project.addTask(taskId, title);
-        projectRepository.save(project);
+        //projectRepository.save(project);
+        // No saved needed, managed entity + dirty checking withing transaction taskRepository.save(task);
 
         log.info("Task created projectId={} taskId={}", projectId, taskId);
         return taskId;
@@ -60,7 +61,7 @@ public class ProjectService {
     @Transactional
     public void changeTaskStatus(UUID projectId, UUID taskId, TaskStatus newStatus) {
 
-        TaskEntity task = taskRepository.findByIdAndProjectId(taskId, projectId)
+        TaskEntity task = taskRepository.findByIdAndProject_Id(taskId, projectId)
                 .orElseThrow(() -> new NotFoundException("Task not found: " + taskId + " for project: " + projectId));
 
         TaskStatus oldStatus = task.getStatus();

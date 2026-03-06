@@ -39,7 +39,7 @@ public class TaskRepositoryIT extends AbstractIntegrationTest{
         projectRepository.save(project1);
         projectRepository.save(project2);
 
-        List<TaskEntity> tasksForP1 = taskRepository.findByProjectId(p1);
+        List<TaskEntity> tasksForP1 = taskRepository.findByProject_Id(p1);
 
         assertThat(tasksForP1).hasSize(2);
         assertThat(tasksForP1)
