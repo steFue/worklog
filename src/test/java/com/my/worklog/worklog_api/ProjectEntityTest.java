@@ -1,6 +1,7 @@
 package com.my.worklog.worklog_api;
 
 import com.my.worklog.worklog_api.domain.ProjectEntity;
+import com.my.worklog.worklog_api.exceptions.DomainValidationException;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -13,7 +14,7 @@ class ProjectEntityTest {
     void constructor_throws_whenNameIsBlank() {
         UUID id = UUID.randomUUID();
 
-        assertThrows(IllegalArgumentException.class, () ->
+        assertThrows(DomainValidationException.class, () ->
                 new ProjectEntity(id,""));
     }
 
@@ -22,7 +23,7 @@ class ProjectEntityTest {
         UUID id = UUID.randomUUID();
         ProjectEntity project = new ProjectEntity(id, "Valid name");
 
-        assertThrows(IllegalArgumentException.class, () ->
+        assertThrows(DomainValidationException.class, () ->
                 project.rename( "  "));
     }
 }

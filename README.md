@@ -78,4 +78,4 @@ Integration tests use **Testcontainers** with a real PostgreSQL instance.
 Run all tests with:
 
 ```bash
-mvn test
+./mvnw test
