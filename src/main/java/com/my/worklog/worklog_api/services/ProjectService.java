@@ -3,6 +3,7 @@ package com.my.worklog.worklog_api.services;
 import com.my.worklog.worklog_api.domain.ProjectEntity;
 import com.my.worklog.worklog_api.domain.TaskEntity;
 import com.my.worklog.worklog_api.domain.TaskStatus;
+import com.my.worklog.worklog_api.dto.ProjectResponse;
 import com.my.worklog.worklog_api.exceptions.NotFoundException;
 import com.my.worklog.worklog_api.repository.ProjectRepository;
 import com.my.worklog.worklog_api.repository.TaskRepository;
@@ -69,5 +70,12 @@ public class ProjectService {
         task.changeStatus(newStatus);
         // No saved needed, managed entity + dirty checking withing transaction taskRepository.save(task);
         log.info("Task status changed projectId={} taskId={} from={} to={}", projectId, taskId, oldStatus, newStatus);
+    }
+
+    @Transactional(readOnly = true)
+    public ProjectResponse getProjectById(UUID projectId) {
+        ProjectEntity project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new NotFoundException("Project not found: " + projectId));
+        return new ProjectResponse(projectId, project.getName());
     }
 }
