@@ -1,6 +1,7 @@
 package com.my.worklog.worklog_api.domain;
 
 
+import com.my.worklog.worklog_api.exceptions.DomainValidationException;
 import jakarta.persistence.*;
 
 import java.time.OffsetDateTime;
@@ -37,10 +38,10 @@ public class TaskEntity {
         this.id = Objects.requireNonNull(id, "Id cannot be null");
 
         if (project == null) {
-            throw new IllegalArgumentException("Task must belong to a project");
+            throw new DomainValidationException("Task must belong to a project");
         }
         if (title == null || title.isBlank()) {
-            throw new IllegalArgumentException("Task title must not be blank");
+            throw new DomainValidationException("Task title must not be blank");
         }
 
         this.project = project;
@@ -70,14 +71,14 @@ public class TaskEntity {
 
     public void rename(String newTitle) {
         if (newTitle == null || newTitle.isBlank()) {
-            throw new IllegalArgumentException("Task title must not be blank");
+            throw new DomainValidationException("Task title must not be blank");
         }
         this.title = newTitle;
     }
 
     public void changeStatus(TaskStatus newStatus) {
         if (newStatus == null) {
-            throw new IllegalArgumentException("Task status must not be null");
+            throw new DomainValidationException("Task status must not be null");
         }
         this.status = newStatus;
     }
