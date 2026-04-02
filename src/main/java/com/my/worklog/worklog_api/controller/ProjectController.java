@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -71,4 +72,9 @@ public class ProjectController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping
+    public ResponseEntity<List<ProjectResponse>> getAllProjects() {
+        List<ProjectResponse> response = projectService.getAllProjects();
+        return ResponseEntity.ok(response);
+    }
 }

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -77,5 +78,14 @@ public class ProjectService {
         ProjectEntity project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new NotFoundException("Project not found: " + projectId));
         return new ProjectResponse(project.getId(), project.getName());
+    }
+
+    @Transactional(readOnly = true)
+    public List<ProjectResponse> getAllProjects() {
+        return projectRepository.findAll()
+                .stream()
+                .map(project -> new ProjectResponse(project.getId(), project.getName()))
+                .toList();
+
     }
 }
