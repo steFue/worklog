@@ -76,6 +76,6 @@ public class ProjectService {
     public ProjectResponse getProjectById(UUID projectId) {
         ProjectEntity project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new NotFoundException("Project not found: " + projectId));
-        return new ProjectResponse(projectId, project.getName());
+        return new ProjectResponse(project.getId(), project.getName());
     }
 }

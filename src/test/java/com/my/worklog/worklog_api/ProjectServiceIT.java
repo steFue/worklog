@@ -3,19 +3,21 @@ package com.my.worklog.worklog_api;
 import com.my.worklog.worklog_api.domain.ProjectEntity;
 import com.my.worklog.worklog_api.domain.TaskEntity;
 import com.my.worklog.worklog_api.domain.TaskStatus;
+import com.my.worklog.worklog_api.dto.ProjectResponse;
+import com.my.worklog.worklog_api.exceptions.NotFoundException;
 import com.my.worklog.worklog_api.repository.ProjectRepository;
 import com.my.worklog.worklog_api.repository.TaskRepository;
 import com.my.worklog.worklog_api.services.ProjectService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@SpringBootTest
-public class ProjectRepositoryIT extends AbstractIntegrationTest{
+
+public class ProjectServiceIT extends AbstractIntegrationTest{
 
     @Autowired
     ProjectRepository projectRepository;
@@ -58,5 +60,23 @@ public class ProjectRepositoryIT extends AbstractIntegrationTest{
 
         TaskEntity reloaded = taskRepository.findById(taskId).orElseThrow();
         assertThat(reloaded.getStatus()).isEqualTo(TaskStatus.IN_PROGRESS);
+    }
+
+    @Test
+    void canGetProjectById() {
+        UUID projectId = projectService.createProject("Test Project");
+        ProjectResponse response = projectService.getProjectById(projectId);
+
+        assertThat(response.id()).isEqualTo(projectId);
+        assertThat(response.name()).isEqualTo("Test Project");
+    }
+
+    @Test
+    void getProjectById_throwsWhenProjectDoesNotExist() {
+        UUID missingId = UUID.randomUUID();
+
+        assertThatThrownBy(() -> projectService.getProjectById(missingId))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("Project not found: " + missingId);
     }
 }

@@ -65,7 +65,7 @@ public class ProjectController {
 
     }
 
-    @GetMapping("{projectId}")
+    @GetMapping("/{projectId}")
     public ResponseEntity<ProjectResponse> getProjectById(@PathVariable UUID projectId) {
         ProjectResponse response = projectService.getProjectById(projectId);
         return ResponseEntity.ok(response);

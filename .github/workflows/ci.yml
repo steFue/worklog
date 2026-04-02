@@ -31,8 +31,8 @@ jobs:
       - name: Make mvnw executable
         run: chmod +x mvnw
 
-      - name: Run tests with Maven Wrapper
-        run: ./mvnw -B -ntp test
+      - name: Run Maven verify
+        run: ./mvnw -B -ntp verify
 
       - name: Upload test reports if failed
         if: failure()
@@ -41,6 +41,7 @@ jobs:
           name: test-reports
           path: |
             target/surefire-reports
+            target/failsafe-reports
 
   docker:
     runs-on: ubuntu-latest
